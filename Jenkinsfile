@@ -5,7 +5,7 @@ pipeline {
         stage('Clone Repo') {
             steps {
                 echo 'Cloning the repo...'
-                git 'https://github.com/yourusername/pratheesh-dev-tech.git'
+                git 'https://github.com/pratheesh-dev-tech/travel-planner.git'
             }
         }
 
