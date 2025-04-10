@@ -1,19 +1,41 @@
 pipeline {
     agent any
 
+    environment {
+        AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
+        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
+    }
+
     stages {
-        stage('Clone Repository') {
+        stage('Checkout Code') {
             steps {
-                git url: 'https://github.com/pratheesh-dev-tech/travel-planner.git', branch: 'main'
+                git branch: 'main',
+                    credentialsId: 'github-creds',
+                    url: 'https://github.com/abishinjoseph/Indian-map.git'
             }
         }
 
-        stage('Deploy Static Site') {
+        stage('Initialize Terraform') {
             steps {
-                echo 'Deploying to /var/www/html on EC2...'
-                sh '''
-                    sudo cp -r * /var/www/html/
-                '''
+                bat 'terraform init'
+            }
+        }
+
+        stage('Validate Terraform') {
+            steps {
+                bat 'terraform validate'
+            }
+        }
+
+        stage('Plan Terraform') {
+            steps {
+                bat 'terraform plan'
+            }
+        }
+
+        stage('Apply Terraform') {
+            steps {
+                bat 'terraform apply -auto-approve'
             }
         }
     }
