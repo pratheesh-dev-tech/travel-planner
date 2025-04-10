@@ -11,7 +11,7 @@ pipeline {
             steps {
                 git branch: 'main',
                     credentialsId: 'github-creds',
-                    url: 'https://github.com/abishinjoseph/Indian-map.git'
+                    url: 'https://github.com/pratheesh-dev-tech/travel-planner.git'
             }
         }
 
