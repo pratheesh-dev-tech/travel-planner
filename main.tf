@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "static_site" {
-  bucket = var.bucket_name
+bucket = "my-jenkins-terraform-bucket-pk"
 
   website {
     index_document = "index.html"
