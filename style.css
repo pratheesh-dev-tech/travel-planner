@@ -1,0 +1,237 @@
+ body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+        .content-container {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            max-width: 400px;
+        }
+        #map {
+            flex: 2; /* Map takes twice the space of content */
+            transition: background 1s ease-out;
+            background-size: cover;
+            background-color: -webkit-focus-ring-color;
+        }
+        #map.faded-out {
+            background: dimgray;
+        }
+        .leaflet-container {
+            font: 12px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+        }
+        @keyframes blink {
+            from { opacity: 1; }
+            50% { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .highlighted-path {
+            stroke-dasharray: 0;
+            animation: blink 1s infinite;
+        }
+        .highlighted-station {
+            background-color: yellow;
+            border-radius: 50%;
+            padding: 5px;
+            animation: blink 1s infinite;
+        }
+        .form-overlay {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            z-index: 1000;
+        }
+        .form-overlay img {
+            display: block;
+            /*margin: 0 auto 20px;*/
+            width: 80px;
+        }
+        .form-overlay select, .form-overlay input, .form-overlay button {
+            width: calc(100% - 40px);
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .form-overlay button {
+            background-color: #0000ff;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .form-overlay button:hover {
+            background-color: #0000ff;
+        }
+        .form-overlay .train-image {
+            width: 100%;
+            margin-top: 20px;
+            border-radius: 15px;
+        }
+        .info-group {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .info-box {
+            text-align: center;
+            margin: 0 10px;
+        }
+        .col-md-12 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 290px;
+        }
+        .info-group {
+            display: grid;
+            grid-template-columns: repeat(2, 2fr);
+            grid-gap: 20px;
+            width: 80%;
+            max-width: 600px;
+        }
+        .info-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 40px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            min-width: 200px;
+            max-width: 250px;
+            outline-width: 1px;
+            outline-offset: 0;
+            outline-color: rgba(0, 139, 207, 0.75);
+            outline-style: solid;
+            animation: animateOutline 4s ease infinite;
+        }
+        @keyframes animateOutline {
+            0% {
+                outline-width: 1px;
+                outline-offset: 0;
+                outline-color: rgba(0, 130, 206, 0);
+            }
+            10% {
+                outline-color: rgba(0, 130, 206, 0.75);
+            }
+            /* The animation finishes at 50% */
+            50% {
+                outline-width: 7px;
+                outline-offset: 4px;
+                outline-color: rgba(0, 130, 206, 0);
+            }
+            100% {
+                outline-width: 7px;
+                outline-offset: 4px;
+                outline-color: rgba(102, 102, 102, 0);
+            }
+        }
+        .fare-box .label,
+        .stops-box .label,
+        .duration-box .label,
+        .distance-box .label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .fare-box .info-icon,
+        .stops-box .info-icon,
+        .duration-box .info-icon,
+        .distance-box .info-icon {
+            width: 35px;
+            height: auto;
+            margin-bottom: 5px;
+            margin-left: 10px;
+
+        }
+        #myList1 {
+            color: black;
+            padding: 15px;
+            width: 100%;
+            height: 300px !important;
+            /*overflow: scroll;*/
+            border: 0px solid #ccc;
+        }
+        .circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.0em;
+            margin: 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+
+        .circle-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .train-info-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .train-info-container .train-info-item {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+        .train-info-container .train-info-item:last-child {
+            margin-right: 0;
+        }
+        .train-info-container .train-info-item img {
+            margin-right: 5px;
+            width: 30px;
+            height: 30px;
+        }
+         .home-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 7px 15px;
+            background-color: #0000ff; /* Green */
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        .home-button:hover {
+            background-color: #0000ff;
+        }
+        .travel-planner-text {
+    color: blue;
+    font-weight: bold;
+    margin-left: 95px;
+            margin-top:-100px ;
+    animation: fadeIn 2s ease-in-out;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Animation keyframes */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
