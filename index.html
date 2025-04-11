@@ -3,106 +3,1290 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MediCare Chatbot</title>
+    <title>Mithra By Chennai Metro</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { text-align: center; font-family: Arial, sans-serif; background: #f1f5f9; padding: 20px; }
-        .container { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); width: 400px; margin: auto; }
-        .chat-box { height: 300px; overflow-y: auto; background: #eef2ff; padding: 10px; border-radius: 10px; text-align: left; }
-        .input-area { display: flex; margin-top: 10px; }
-        input { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid #93c5fd; }
-        button { padding: 10px; margin-left: 5px; background: #3b82f6; color: white; border: none; cursor: pointer; border-radius: 10px; }
-        .nav-buttons { margin-bottom: 20px; }
-        .nav-buttons button { margin: 5px; }
-        h2 { color: #1e40af; }
+         @font-face {
+            font-family: 'Tiro Tamil';
+            src: url('https://example.com/path-to-tiro-tamil.ttf') format('truetype');
+        }
+        .rectangle-2 {
+            width: 200px;
+            padding-top: 5px; /* Adjust padding */
+            background: white;
+            border-radius: 50%;
+        }
+
+        .rectangle-4,
+        .rectangle-5,
+        .rectangle-11 {
+            background: #D8D8D8;
+        }
+
+        .rectangle-3 {
+            height: 200px;
+            text-align: center; /* Center align contents */
+        }
+
+        .rectangle-4,
+        .rectangle-5 {
+            height: 450px;
+        }
+
+        .rectangle-7,
+        .rectangle-8,
+        .rectangle-9 {
+            height: 30px;
+            width: 600px;
+        }
+
+        .rectangle-10 {
+            height: 200px;
+            width: 300px;
+            text-align: center;
+        }
+
+        #map {
+            height: 500px;
+            width: 100%;
+        }
+
+        .rectangle-11 {
+            height: 422px;
+            margin-top: 20px;
+        }
+
+        h1 {
+            font-size: 80px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .rectangle-18 {
+            width: 260px;
+            margin: 0 auto;
+        }
+
+        .gif-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin-top: -25px;
+        }
+
+        .gif2-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: -90px; /* Move gif2 up */
+        }
+
+        .scroll-box {
+            height: 450px;
+            overflow-y: scroll;
+            background: white;
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            align-content: center;
+        }
+
+        .scroll-box table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .scroll-box th,
+        .scroll-box td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .scroll-box th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        .scroll-box h5 {
+            margin-bottom: 10px;
+            margin-top: 0;
+        }
+
+        .station-details {
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+
+        .datetime-box {
+            margin-top: 10px;
+            padding: 1px;
+            text-align: left;
+        }
+
+        .btn-custom {
+            background-color: green; /* Default background color */
+            color: white; /* Default text color */
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .btn-custom:hover {
+            background-color: darkgreen; /* Darker background color on hover */
+        }
+
+        /* Add this to your existing <style> tag */
+
+        .glow {
+            font-weight: bold;
+            color: mediumblue; /* Gold color */
+            text-shadow: 0 0 0px mediumblue;
+        }
+        .glow1 {
+            font-weight: 600;
+            color: cadetblue; /* Gold color */
+            text-shadow: 0 0 0px grey;
+            font-family: 'Tiro Tamil';
+        }
+
+        .map-container1 {
+            width: 400px;
+            height: 450px;
+            border: 1px solid #ccc;
+        }
+
+        #api-details {
+            background-color: rgba(162, 162, 162, 0.51);
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            color: black;
+        }
+
+        #api-details h5 {
+            margin-bottom: 20px;
+        }
+
+        #api-details p {
+            margin: 5px 0;
+        }
+
+
     </style>
 </head>
 <body>
-    <h2>💬 MediCare Chatbot</h2>
-    <div class="nav-buttons">
-        <button onclick="findNearestHospital()">Find Nearest Hospital 🏥</button>
-        <button onclick="startVoiceSearch()">🎤 Voice Search</button>
-        <button onclick="window.location.href='/user'">📅 Book Appointment</button>
-        <button onclick="window.location.href='/admin'">👨‍⚕️ Admin Portal</button>
-        <button onclick="window.location.href='/appointments'">📋 View Appointments</button>
-    </div>
-    <div class="container">
-        <div class="chat-box" id="chatOutput"></div>
-        <div class="input-area">
-            <input type="text" id="chatInput" placeholder="Ask MediCare..." onkeypress="if(event.key === 'Enter') askChatbot()" />
-            <button onclick="askChatbot()">Send</button>
+<div class="container-fluid">
+    <div class="row mt-3">
+        <div class="col-12 col-md-3 mb-3">
+            <div class="home-button mb-2">
+                <a href="https://chennaimetrorail.org/" class="btn btn-custom">Home</a>
+            </div>
+
+            <div class="rectangle-2">
+                <img src="../../Downloads/CMRL%202/logo.jpeg" class="rectangle-2"/>
+            </div>
+            <div class="rectangle-9 mb-2">
+                <select id="places" onchange="findNearestStation()">
+                    <option value="">Select a Place</option>
+                </select>
+            </div>
+            <div class="rectangle-8 mb-2">
+                <p id="user-nearest-station">Your Nearest Station: </p>
+            </div>
+            <div class="rectangle-7">
+                <p id="destination-nearest-station">Destination's Nearest Station: </p>
+            </div>
+            <div class="datetime-box" id="current-datetime"></div>
+            <!-- Add the navigation button -->
+            <button class="btn btn-custom mt-2" onclick="startNavigation()">Start Navigation</button>
+            <a href="https://travelplanner.chennaimetrorail.org/" class="btn btn-custom" style="margin-top: 8px">Route
+                Info</a>
+
+        </div>
+        <div class="col-12 col-md-6 mb-3">
+            <div class="text-center">
+                <h1 class="glow1">மித்ரா</h1>
+            </div>
+            <div class="gif-container">
+                <div class="rectangle-3">
+                    <img src="../../Downloads/CMRL%202/gif1.gif" class="rectangle-18"/>
+                </div>
+                <div class="rectangle-10 gif2-container">
+                    <img onclick="startVoiceRecognition()" src="../../Downloads/CMRL%202/gif2.gif" class="img-fluid" alt="gif2">
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-3 mb-3">
+            <div class="rectangle-11">
+                <div class="map-container1" id="embedded-map"></div>
+            </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-12 d-flex justify-content-center mb-3"></div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-6 mb-3">
+            <div class="rectangle-4 d-flex justify-content-around align-items-start">
+                <div class="scroll-box">
+                    <h5>Your Nearest Station</h5>
+                    <table id="user-nearest-station-details" class="table station-details"></table>
+                </div>
+                <div class="scroll-box">
+                    <h5>Destination's Nearest Station</h5>
+                    <table id="destination-nearest-station-details" class="table station-details"></table>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 mb-3">
+            <div class="rectangle-5">
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    let map;
+    let userLocation = {lat: 13.0585, lng: 80.2113}; // Default
+    const places = {
+        "Secretariat": {"lat": 13.08166986780073, "lng": 80.28664689870857, "exits": `A1 has Lift and Escalator`},
+        "Government Estate": {"lat": 13.06896320810271, "lng": 80.27239458688688, "exits": `A1 has Lift`},
 
-    <script>
-        function findNearestHospital() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(position => {
-                    let lat = position.coords.latitude;
-                    let lon = position.coords.longitude;
-                    window.open(`https://www.google.com/maps/search/hospitals/@${lat},${lon},14z`, '_blank');
-                }, () => alert("Location access denied. Please enable GPS."));
-            } else {
-                alert("Geolocation is not supported.");
+        "Chennai International Airport": {
+            "lat": 12.981807962325025,
+            "lng": 80.16560104791681,
+            "exits": `B has Lift and Escalator`
+        },
+        "Aerohub Mall": {
+            "lat": 12.981807962325025,
+            "lng": 80.16560104791681,
+            "exits": `A  Gate has Lift and Escalator`
+        },
+        "Airport Bustop": {"lat": 12.981402027121995, "lng": 80.16624097822215, "exits": `A has Lift and Escalator`},
+        "Tirusulam": {"lat": 12.98034270558057, "lng": 80.16578989927241, "exits": `A has Lift and Escalator`},
+
+        "Meenambakkam Station": {"lat": 12.98475, "lng": 80.17519, "exits": `A2 has Lift`},
+        "A M Jain College": {"lat": 12.98307, "lng": 80.17733, "exits": `A2 has Lift`},
+        "Meenambakkam Post Office": {"lat": 12.990713016605346, "lng": 80.18192689689923, "exits": `B2 has Lift`},
+
+        "Nanganallur Bus Stop": {"lat": 12.99930, "lng": 80.19371, "exits": `A1 has Stairs`},
+        "Radisson Blue Hotel": {"lat": 12.99495, "lng": 80.19029, "exits": `A1 has Stairs`},
+        "ST. Thomas Mount National Shrine": {"lat": 13.00529, "lng": 80.19287, "exits": `A2 has Lift`},
+        "Sankarnetralaya Eye Hospital": {"lat": 12.98313, "lng": 80.19511, "exits": `A2 has Lift`},
+
+        "Kathipara Urban Square": {"lat": 13.00737, "lng": 80.20315, "exits": `A`},
+        "DLF Cyber City": {"lat": 13.02496, "lng": 80.18058, "exits": `A`},
+        "REMO College": {"lat": 13.00090, "lng": 80.19970, "exits": `C`},
+        "Alandur Sub Registrar Office": {"lat": 13.00206, "lng": 80.20046, "exits": `D`},
+
+
+        "Phoenix Mall": {"lat": 12.99306, "lng": 80.21810, "exits": `A1 has Lift and Escalator`},
+        "Race Course": {"lat": 13.00966, "lng": 80.21609, "exits": `A1 has Lift and Escalator`},
+        "Guindy Industrial Estate": {"lat": 13.01031, "lng": 80.20858, "exits": `A1 has Lift and Escalator`},
+
+        "IIT Madras": {"lat": 13.00629, "lng": 80.24235, "exits": `A has Lift and Escalator`},
+        "Guindy National Park": {"lat": 13.00501, "lng": 80.229509, "exits": `A has Lift and Escalator`},
+        "Ranibow Children Hospital": {"lat": 13.014206, "lng": 80.22309, "exits": `B has Lift and Escalator`},
+        "Anna University": {"lat": 13.01109, "lng": 80.23604, "exits": `A has Lift and Escalator`},
+
+        "Panagal Maligai": {"lat": 13.02012, "lng": 80.22456, "exits": ``},
+        "BM Birla Planetorium": {"lat": 13.01229, "lng": 80.24381, "exits": ``},
+        "Mother Terasa Women University": {
+            "lat": 13.020907417800377,
+            "lng": 80.22671193377064,
+            "exits": `B2 has Escalator`
+        },
+        "TNGF Cosmo Golf Club": {"lat": 13.022076925774643, "lng": 80.23305199580199, "exits": `B2 has Escalator`},
+
+        "T Nagar": {"lat": 13.034450400655457, "lng": 80.23028018931691, "exits": `B4 has Escalator`},
+        "Sub Registrar Office, Saidapet": {
+            "lat": 13.026579580577142,
+            "lng": 80.23322014911439,
+            "exits": `B1 has Escalator`
+        },
+        "MetroS": {"lat": 13.03185, "lng": 80.24320, "exits": `A1 has Escalator`},
+        "Chaimeirs Road": {"lat": 13.02977, "lng": 80.24344, "exits": `B1 has Escalator`},
+        "Tirumala Tirupati Devasthanam": {"lat": 13.03608, "lng": 80.23644, "exits": `B4 has Escalator`},
+        "Panagal Park": {"lat": 13.041334312676614, "lng": 80.23366223377106, "exits": `B4 has Escalator`},
+
+        "Apollo Cancer Institute": {"lat": 13.033569598925935, "lng": 80.24471049525879, "exits": `B1 has Escalator`},
+        "SIET College": {"lat": 13.035886849033444, "lng": 80.2477803571142, "exits": `B1 has Escalator`},
+        "Pondy Bazaar": {"lat": 13.03987583960405, "lng": 80.23978806260692, "exits": `A3 has Escalator`},
+
+        "AG-DMS Office": {"lat": 13.044558906567303, "lng": 80.24919721066404, "exits": `A1 has Escalator`},
+        "Stella Maris College": {"lat": 13.046614170739373, "lng": 80.25381035468202, "exits": `A2 has Lift`},
+        "Senmozhi Poonga": {"lat": 13.050746134385228, "lng": 80.25184195331357, "exits": `A3 has Escalator`},
+        "Hyatt Regency Chennai": {"lat": 13.04337966506068, "lng": 80.24962953745317, "exits": `B1 has Escalator`},
+
+        "Apollo Hospital": {"lat": 13.06388227454138, "lng": 80.25431026780429, "exits": `B3 has Lift`},
+
+        "Express Avenue": {"lat": 13.058971709594589, "lng": 80.26556329516289, "exits": `B1 has Lift`},
+        "L I C Building": {"lat": 13.064151879890838, "lng": 80.26599341356571, "exits": `B2 has Escalator`},
+        "TNEB": {"lat": 13.065445421932784, "lng": 80.2653854453802, "exits": `B4 has Lift`},
+        "Passport Office": {"lat": 13.064186327543116, "lng": 80.26399912203964, "exits": `A3 has Escalator`},
+        "Royapetta Hospital": {"lat": 13.055425824712424, "lng": 80.26699507045018, "exits": `A1 has Lift`},
+        "Spencer Plaza": {"lat": 13.062273184064292, "lng": 80.26233657411943, "exits": `B4 has Lift`},
+        "Govt. Museum": {lat: 13.069372539738106, lng: 80.25636134473588, "exits": ``},
+
+        "M A Chidambaram Cricket Stadium": {
+            "lat": 13.063237100939029,
+            "lng": 80.2791770731208,
+            "exits": `B1 has Escalator`
+        },
+        "Tamil Nadu Govt. Multi Super Speciality Hospital": {
+            "lat": 13.069271207461686,
+            "lng": 80.27526648113795,
+            "exits": `A1 has Lift`
+        },
+        "Island Grounds": {"lat": 13.072939410899746, "lng": 80.28074, "exits": `A1 has Lift`},
+        "Madras University": {"lat": 13.066165163847218, "lng": 80.28388000305674, "exits": `B1 has Escalator`},
+        "Marina Beach": {"lat": 13.05325500070687, "lng": 80.28179361145531, "exits": `B1 has Escalator`},
+        "Napier Bridge": {"lat": 13.069276885531755, "lng": 80.28600590495152, "exits": `A2 has Stairs`},
+        "Chindadaripet Railway Station": {
+            "lat": 13.073858364624032,
+            "lng": 80.27387482609801,
+            "exits": `A3 has Lift and Escalator`
+        },
+        "Kasthuribhai Govt. Medical College & Hospital": {
+            "lat": 13.059716911384557,
+            "lng": 80.27729574092484,
+            "exits": `B1 has Escalator`
+        },
+
+        "Chennai Central": {"lat": 13.083542330155682, "lng": 80.27543551620745, "exits": `A3 has Lift and Escalator`},
+        "Chennai Park Railway Station": {
+            "lat": 13.080682544873852,
+            "lng": 80.27323352843506,
+            "exits": `B1 has Escalator`
+        },
+        "Moore Market": {"lat": 13.091400649963463, "lng": 80.27201837606367, "exits": `B4 has Lift and Escalator`},
+        "Rajiv Gandhi Govt. General Hospital": {
+            "lat": 13.081603654576464,
+            "lng": 80.27754290159,
+            "exits": `A1 has Lift and Escalator`
+        },
+        "Rippon Building": {"lat": 13.02750, "lng": 80.23985, "exits": `B5 has Escalator`},
+        "SDAT Indoor Station": {"lat": 13.085858418624973, "lng": 80.27156801841659, "exits": `B5 has Escalator`},
+
+
+        "High Court": {"lat": 13.086955204103365, "lng": 80.2880504541505, "exits": `A1 has Lift and Escalator`},
+        "Parrys Corner": {"lat": 13.089593048049549, "lng": 80.29020002106162, "exits": `A1 has Lift and Escalator`},
+        "Broadway Bus Stand": {
+            "lat": 13.087634464974077,
+            "lng": 80.28432754825492,
+            "exits": `A2 has Lift and Escalator`
+        },
+        "Bar Council": {"lat": 13.088696113007877, "lng": 80.28784908130778, "exits": `A1 has Lift and Escalator`},
+        "Raja Annamalai Mandram": {"lat": 13.08589973349758, "lng": 80.283952039, "exits": `B3 has Stairs`},
+        "Chennai Port": {lat: 13.084429757502855, lng: 80.2965786246494, "exits": ``},
+
+
+        "Chennai Beach Station": {"lat": 13.091919808607126, "lng": 80.29017098803199, "exits": ``},
+        "Kaalikambal Kamadeswarar Temple": {
+            lat: 13.09472243906254,
+            lng: 80.289008063667,
+            "exits": ` B1 has Lift and Escalator`
+        },
+
+        "Washermenpet Railway Station": {lat: 13.108792288395021, lng: 80.2808898816, "exits": `A1 has Escalator`},
+        "Stanley Govt. Hospital": {lat: 13.10517858992855, lng: 80.28425436014423, "exits": `B2 has Escalator`},
+        "Mint Bus Terminus": {lat: 13.10459671826211, lng: 80.27567022312847, "exits": `B2 has Escalator`},
+
+        "Theagaraya College": {lat: 13.116809235922632, lng: 80.28468556076916, "exits": `E2 has Escalator`},
+        "Korukkupet Railway Station": {lat: 13.119845924628004, lng: 80.27794075789643, "exits": `E3 has Lift`},
+
+        "Tondiarpet Railway Station": {lat: 13.127262788059886, lng: 80.28121730866567, "exits": ``},
+        "Apollo Hospital Tondiarpet": {lat: 13.129226397783542, lng: 80.29021129014386, "exits": ``},
+        "Fish Market": {lat: 13.126227890327623, lng: 80.29718680384826, "exits": ``},
+        "Apollo Hospital New Washermenpet": {lat: 13.127262788059886, lng: 80.28121730866567, "exits": ``},
+
+        "N4 Beach": {lat: 13.131101846051399, lng: 80.30287425875001, "exits": `E3 has Lift and Escalator`},
+        "V O C Nagar Railway Station": {lat: 13.140466461872105, lng: 80.28757887519743, "exits": ``},
+        "M P T Ground Toll Ground": {lat: 13.140284481096858, lng: 80.2906471202808, "exits": ``},
+        "Kasimedu Rock Beach": {lat: 13.140400693432916, lng: 80.30105772504972, "exits": ``},
+
+        "Market Lane Beach": {lat: 13.150197782481996, lng: 80.3043028915, "exits": `E1 has Lift and Escalator`},
+        "Kaladipet Market": {lat: 13.15254871416192, lng: 80.300183930804, "exits": `E1 has Lift and Escalator`},
+
+        "Tiruvottiyur Railway Station": {lat: 13.158759972297219, lng: 80.2961033695651, "exits": `E1 has Lift`},
+
+        "N8 Beach Tiruvottiyur": {lat: 13.164773317199938, lng: 80.31289352771266, "exits": ``},
+        "Tiruvottiyur Bus Depot": {
+            lat: 13.175296003428976,
+            lng: 80.30595624200038,
+            "exits": `E2 has Lift and Escalator`
+        },
+        "Tiruvottiyur Beach": {lat: 13.170056831907932, lng: 80.31152075530727, "exits": ``},
+        "BSNL Office": {lat: 13.173866387346768, lng: 80.30541276072228, "exits": `E2 has Lift and Escalator`},
+
+        "Wimco Nagar Railway Station": {
+            lat: 13.180292085808253,
+            lng: 80.30465798036525,
+            "exits": `E1 has Lift and Escalator`
+        },
+        "MRF Tyre Factory": {lat: 13.1787248958676, lng: 80.30875859127916, "exits": `E1 has Lift and Escalator`},
+
+        "Bharathiyar Nagar Beach": {lat: 13.184244317250121, lng: 80.31762113126507, "exits": `A1 has Lift`},
+
+        "Egmore Railway Station": {
+            lat: 13.077889292801723,
+            lng: 80.26118390765329,
+            "exits": `A3 has Escalator and Lift`
+        },
+        "Commissioner Office": {lat: 13.081337955493758, lng: 80.263941218, "exits": `A3 has Escalator and Lift`},
+        "Mayor Radhakrishnan Hockey Stadium": {lat: 13.07532518583321, lng: 80.2604574335, "exits": ``},
+        "Magistrate Court Egmore": {lat: 13.073152455370186, lng: 80.26351173, "exits": `A3 has Escalator and Lift`},
+
+        "Nehru Park": {lat: 13.078802205291952, lng: 80.2517277705619, "exits": `B1 has Lift`},
+        "SDAT": {lat: 13.077801844811258, lng: 80.25068334719201, "exits": `A3 has Escalator`},
+        "Sangam Cinemas": {lat: 13.079138584956473, lng: 80.249431089, "exits": `B3 has Stairs`},
+        "Apollo First Med Hospital": {lat: 13.07827524681767, lng: 80.24779782133362, "exits": ``},
+
+        "Kilpauk Mental Hospital": {lat: 13.09136149838255, lng: 80.23917525862714, "exits": `B2 has Lift`},
+        "Kilpauk Medical College": {lat: 13.076823814802255, lng: 80.2434621417334, "exits": `A2 has Lift`},
+
+        "Pachaiyappas College": {lat: 13.074470122973581, lng: 80.23363251106167, "exits": `B3 has Escalator`},
+        "St.George's Anglo Indian School": {
+            lat: 13.076971910953615,
+            lng: 80.23315137800223,
+            "exits": `B3 has Escalator`
+        },
+
+        "Billroth Hospital": {lat: 13.075881906532075, lng: 80.2279874743087, "exits": `A2 has Escalator`},
+        "Thiru.Vi.Ka.Park": {lat: 13.07881996007828, lng: 80.22503734783126, "exits": `A2 has Escalator`},
+        "Aminjikarai Signal": {lat: 13.074301769995506, lng: 80.22090450800087, "exits": `A2 has Escalator`},
+        "Ampa SkyOne": {lat: 13.073661511978772, lng: 80.22179175337644, "exits": `A2 has Escalator`},
+        "Anna Nagar Roundtana": {lat: 13.075169634609939, lng: 80.21739011283371, "exits": ` B1 has Lift`},
+
+        "Masjid Javeed Anna Nagar": {lat: 13.089333119072126, lng: 80.21898390309993, "exits": ``},
+        "Valliammal College for Women, Anna Nagar": {
+            lat: 13.0865852052812,
+            lng: 80.22027499755364,
+            "exits": `A1 has Lift`
+        },
+        "ICF": {lat: 13.105565428252001, lng: 80.22131776418136, "exits": ``},
+        "Anna Nagar Tower": {lat: 13.086574755078695, lng: 80.21377332299564, "exits": `B4 has Stairs`},
+
+        "Ayyapan Kovil": {lat: 13.085422160904823, lng: 80.21356409658338, "exits": `A1 has Lift`},
+        "St.Luke Church": {lat: 13.085695049179927, lng: 80.21058306620827, "exits": `A2 has Escalator`},
+        "Anna Adarsh College": {lat: 13.080300716022197, lng: 80.21120678110253, "exits": `A3 Escalator`},
+        "Kora Food Street": {lat: 13.085523705945722, lng: 80.2073695467097, "exits": `B3 has Stairs`},
+        "Metro Water": {lat: 13.097146723517808, lng: 80.20687719286536, "exits": ``},
+        "GST Office": {lat: 13.085425531675313, lng: 80.20442282529594, "exits": `A3 has Escalator`},
+        "VR Chennai": {lat: 13.08070382069834, lng: 80.1979176745851, "exits": `B1 has Stairs`},
+
+        "Koyambedu Market": {lat: 13.070999166751832, lng: 80.1935675682631, "exits": `C has Lift`},
+        "Rohini Theatre": {lat: 13.076535011502797, lng: 80.19464476744645, "exits": `D has Lift`},
+        "Omni Bus Stand": {lat: 13.070049623935649, lng: 80.19823426412049, "exits": ` B has Escalator`},
+        "Koyembedu": {lat: 13.070049623935649, lng: 80.19823426412049, "exits": ` B has Escalator`},
+        "Koyembedu Bus Stand": {lat: 13.070049623935649, lng: 80.19823426412049, "exits": ` B has Escalator`},
+        "CMRL Admin Building": {lat: 13.073084062538413, lng: 80.19367002313514, "exits": `C has Lift`},
+
+        "CMBT": {lat: 13.068609613040438, lng: 80.20630642047905, 'exits': `A has Stairs`},
+        "Election Commission": {lat: 13.069905769080673, lng: 80.20692997739445, "exits": `C has Escalator and Lift`},
+        "DG Vaishnav College": {lat: 13.074312291427054, lng: 80.21352838295012, "exits": `C has Escalator and Lift`},
+
+        "MMDA Colony": {lat: 13.066995477927195, lng: 80.21480091191272, "exits": `A has Escalator`},
+        "MMDA Bus Stand": {lat: 13.065456201814195, lng: 80.21080173222303, "exits": `A has Escalator`},
+
+        "Arulmigu Vadapalani Murugan Temple": {lat: 13.052538076800435, lng: 80.21341146508176, "exits": `C has Lift`},
+        "Nexus Vijaya Mall": {lat: 13.05017340924239, lng: 80.20948528725266, "exits": `B has Lift and Escalator`},
+        "SIMS Hospital": {lat: 13.052139244582849, lng: 80.21053545100145, "exits": `A has Lift and Escalator`},
+        "SRM Vadapalani": {lat: 13.05211925658729, lng: 80.2107963141673, "exits": `A has Lift and Escalator`},
+        "Puttu Kattu Bone and Joint Specilaist": {lat: 13.044883022919317, lng: 80.21261263321571, "exits": ``},
+
+        "Ashok Pillar": {lat: 13.03505111173388, lng: 80.21219106284646, "exits": ``},
+        "KK Nagar Bus Depot": {lat: 13.035756793375946, lng: 80.20563106728025, "exits": `D has Lift`},
+        "Kasi Theatre": {lat: 13.02948334702262, lng: 80.20847315577994, "exits": `F has Stairs`},
+        "KV School Ashok Nagar": {lat: 13.037258676546587, lng: 80.208943514605, "exits": `D has Lift`},
+
+        "Olympia Tech Park": {lat: 13.015176624107523, lng: 80.2041007043788, "exits": `B1 has Lift`},
+        "DLF Cyber City": {lat: 13.022239167175593, lng: 80.17221922828709, "exits": `B1 has Lift`},
+        "Tamarai Tech Park": {lat: 13.012290093439024, lng: 80.20403456946336, "exits": ``},
+        "Hilton, Ekkattuthangal": {lat: 13.017048232187628, lng: 80.20568662528345, "exits": `B1 has Lift`},
+
+        "St. Thomas Mount Railway Station": {lat: 12.995145335942723, lng: 80.1987347083044, "exits": ``},
+        "Nanganallur Anjaneyar Temple": {lat: 12.98671815627198, lng: 80.19433457730344, "exits": ``},
+    };
+
+
+    const stations = {
+        "Chennai International Airport": {
+            id: 117, lat: 12.980826, lng: 80.1642, details:
+                'Name\tFloor\tLocation\n' +
+                'Lift No 03\tConcourse To Platform - 01\t-\n' +
+                'Lift No 04\tConcourse To Platform - 02\t-\n' +
+                'Lift No 05\tParking, Street To Unpaid Concourse\tA Entrance\n' +
+                'Lift No 06\tParking To Unpaid Concourse\tNear EFO 2\n' +
+                'Lift No 07\tStreet, Intermediate To Unpaid Concourse\tB Entrance' +
+                'Escalator No 1\tStreet To Concourse Unpaid\tA Entrance\n' +
+                'Escalator No 2\tConcourse To Street\tA Entrance\n' +
+                'Escalator No 3\tConcourse To Platform - 01\t-\n' +
+                'Escalator No 4\tPlatform - 01 To Concourse\t-\n' +
+                'Escalator No 5\tConcourse To Platform - 02\t-\n' +
+                'Escalator No 6\tPlatform - 02 To Concourse\t-\n' +
+                'Escalator No 9\tIntermediate To Concourse\tB Entrance\n' +
+                'Escalator No 10\tConcourse To Intermediate\tB Entrance\n',
+            gates: `A and B gates have Lift and Escalator`
+        },
+        "Meenambakkam": {
+            id: 116, lat: 12.987656, lng: 80.176505, details: `
+            Name	Floor	Location
+            Lift No 1	Street To Unpaid Concourse	A-2 Entrance
+            Lift No 2	Street To Unpaid Concourse	B-2 Entrance
+            Lift No 3	Concourse To Platform 1	-
+            Lift No 4	Concourse To Platform 2	-`, gates: `A-2 and B-2 gates have lift`
+        },
+        "Nandanam": {
+            id: 110, lat: 13.03139, lng: 80.239969, details: `
+            Name	Floor	Location
+            Lift No 1	Concourse to Street	B-2 Entrance
+            Lift No 2	Street to Unpaid Concourse	A-3 Entrance
+            Lift No 3	Concourse to Platform	-
+            Lift No 4	Concourse to Street	B-3 Entrance
+                Lift No 5	Concourse to Street	B-3 Entrance
+                Escalator No 1	Street to Unpaid Concourse	A-1 Entrance
+                Escalator No 3	Street to Unpaid Concourse	B-1 Entrance
+                Escalator No 5	Street to Intermediate	B-4 Entrance
+                Escalator No 6	Street to Unpaid Concourse	A-2 Entrance
+                Escalator No 5	Intermediate to Street	B-4 Entrance
+                Escalator No 8	Concourse to Platform	EFO 01
+                Escalator No 11	Concourse to Platform	EFO 02`,
+            gates: `A-3 , B-2 and B-3 gates have lift`
+        },
+        "Nanganallur Road ": {
+            id: 115, lat: 12.999933, lng: 80.193985, details: `
+Name	Floor	Location
+Lift No 01	Street To Concourse
+Lift No 02	Concourse To Platform -1
+Lift No 03	Concourse To Platform -2`, gates: ` A-2 gate has lift`
+        },
+        "Alandur ": {
+            id: 114, lat: 13.004713, lng: 80.20145, details: `
+Name	Floor	Location
+Escalator No 8	Street To Platform 1
+Escalator No 18	Platform 1 To Platform 3
+Escalator No 24	Platform 3 To Platform 1
+Escalator No 10	Platform 1 To Street
+Escalator No 6	Street To Platform 2
+Escalator No 20	Platform 2 To Platform 4
+Escalator No 22	Platform 4 To Platform 2
+Escalator No 12	Platform 2 To Street
+Lift No 1	Street To Platform 1 & Platform 3
+Lift No 2	Street To Platform 1 & Platform 3
+Lift No 3	Street To Platform 2 & Platform 4
+Lift No 4	Street To Platform 2 & Platform 4`, gates: `not specified`
+        },
+        "Guindy ": {
+            id: 113, lat: 13.00924, lng: 80.213199, details: `
+Name	Floor   Location
+Escalator No 1	Street To Unpaid Concourse
+Escalator No 5	Paid Concourse To Mechanical
+Escalator No 7	Mechanical To Platform 1
+Escalator No 8	Mechanical To Platform 2
+Lift No 2	Street To Unpaid Concourse
+Lift No 3	Concourse To Platform 1
+Lift No 4	Concourse To Platform 2`, gates: ` A-1 gate has both lift and Escalator`
+        },
+        "Little Mount ": {
+            id: 112, lat: 13.014712, lng: 80.223993, details: `
+Name	Floor	Location
+Escalator No 6	Platform 1 To Link Bridge	-
+Escalator No 7	Link Bridge To Platform 1	A Entrance
+Escalator No 4	Street To Linkbridge	B Entrance
+Lift No 01	Concourse To Street	A Entrance
+Lift No 02	Concourse To Street	B Entrance`, gates: `a and b gates have both lift and Escalator`
+        },
+        "Saidapet ": {
+            id: 111, lat: 13.023717, lng: 80.228208, details: `
+Name	Floor	Location
+Escalator No 1	Unpaid Concourse To Street	A-1 Entrance
+Escalator No 2	Street To Unpaid Concourse	A-1 Entrance
+Escalator No 3	Unpaid Concourse To Street	B-2 Entrance
+Escalator No 4	Street To Unpaid Concourse	B-2 Entrance
+Escalator No 5	Unpaid Concourse To Street	A-2 Entrance
+Escalator No 6	Platform To Concourse	EFO 02
+Escalator No 7	Concourse To Platform	EFO 01
+Lift No 1	Street To Unpaid Concourse	A-3 Entrance
+Lift No 2	Street To Unpaid Concourse	B-1 Entrance
+Lift No 3	Platform To Concourse	-`, gates: ` A-3 and B-1 gate have lift`
+        },
+
+        "Teynampet ": {
+            id: 109, lat: 13.037904, lng: 80.247029, details: `
+Name	Floor	Location
+Escalator No 2	Street To Unpaid Concourse	A-2 Entrance
+Escalator No 3	Street To Unpaid Concourse	B-1 Entrance
+Escalator No 4	Street To Intermediate	B-1 Entrance
+Escalator No 5	Street To Unpaid Concourse	B-3 Entrance
+Escalator No 6	Street To Unpaid Concourse	A-3 Entrance
+Escalator No 8	Concourse To Platform	EFO 02
+Escalator No 11	Concourse To Platform	EFO 01
+Lift No 1	Concourse To Street	A-1 Entrance
+Lift No 2	Concourse To Street	B-2 Entrance
+Lift No 3	Near station control room	-`, gates: ` A-1 and B-2 gates have lift`
+        },
+        "AG-DMS ": {
+            id: 108, lat: 13.044682, lng: 80.248052, details: `
+Name	Floor	Location
+Escalator No 1	Street To Concourse	A-1 Entrance
+Escalator No 2	Concourse To Street	A-1 Entrance
+Escalator No 3	Concourse To Street	B-1 Entrance
+Escalator No 5	Intermediate To Street	A-3 Entrance
+Escalator No 7	Platform To Concourse	EFO 01
+Escalator No 9	Platform To Concourse	EFO 02
+Lift No 1	Concourse To Street	A-1 Entrance
+Lift No 2	Concourse to Street	B-3 Entrance
+Lift No 3	Concourse to Platform	-`, gates: ` A-2 and B-3 gates have lift`
+        },
+        "Thousand Lights ": {
+            id: 107, lat: 13.058198, lng: 80.258056, details: `
+Name	Floor	Location
+Escalator No 1	Concourse to Street	A-1 Entrance
+Escalator No 5	Concourse to Street	A-4 Entrance
+Escalator No 6	Concourse to Street	A-4 Entrance
+Escalator No 7	Platform to Concourse	-
+Escalator No 10	Platform to Concourse	-
+Lift No 1	Concourse to street	A-3 Entrance
+Lift No 2	Concourse to street	B-3 Entrance
+Lift No 3	Concourse to Platform near to SCR	-`, gates: ` A-3 and B-3 gates have lift`
+        },
+        "L I C ": {
+            id: 106, lat: 13.064511, lng: 80.266065, details: `
+Name	Floor	Location
+Escalator No 3	Intermediate to Street	B-2 Entrance
+Escalator No 4	Concourse to Intermediate	B-2 Entrance
+Escalator No 7	Concourse to Street	A-3 Entrance
+Escalator No 8	Street to Concourse	A-3 Entrance
+Escalator No 9	Platform to Concourse	-
+Escalator No 12	Platform to Concourse	-
+Lift No 1	Concourse to Street	B-1 Entrance
+Lift No 2	Concourse to Street	B-4 Entrance
+Lift No 3	Concourse to Platform	-
+Lift No 4	Concourse to Street	A-1 Entrance
+Lift No 5	Concourse to street	A-1 Entrance`, gates: ` A-1 and B-1 gates have lift`
+        },
+        "Government Estate ": {
+            id: 105, lat: 13.069557, lng: 80.272842, details: `
+Name	Floor	Location
+Escalator No 2	Concourse to Street	B-1 Entrance
+Escalator No 4	Concourse to Street	B-2 Entrance
+Escalator No 6	Concourse to Street	A-4 Entrance
+Escalator No 7	Platform To Concourse	-
+Escalator No 10	Platform To Concourse	-
+Lift No 1	Concourse to Street	A-1 Entrance
+Lift No 2	Concourse to Street	A-3 Entrance
+Lift No 3	Concourse to Platform	-`, gates: ` A-1 and A-3 gates have lift`
+        },
+        "Chennai Central ": {
+            id: 104, lat: 13.081426, lng: 80.272887, details: `
+Name	Floor	Location
+Escalator No 1	Street To Unpaid Concourse	B-1 Entrance
+Escalator No 2	Unpaid Concourse To Street	B-1 Entrance
+Escalator No 3	Subway 1 To Street	Towards Park Station
+Escalator No 39	Street To Subway 1	Towards Park Station
+Escalator No 16	Unpaid Concourse to Street	B5 Entrance
+Escalator No 38	Unpaid Concourse To Subway 1	B-3 & B-4 Entrances
+Escalator No 37	Subway 1 To Unpaid Concourse	B-3 & B-4 Entrances
+Escalator No 33	Subway 1 To Street	B-3 & B-4 Entrances
+Escalator No 36	Street To Subway 1	B-3 & B-4 Entrances
+Escalator No 41	Unpaid Concourse To Subway 2	A-1 & A-2 Entrances
+Escalator No 42	Subway 2 To Unpaid Concourse	A-1 & A-2 Entrances
+Escalator No 34	Subway 2 To Street	A-1 & A-2 Entrances
+Escalator No 40	Street To Subway 2	A-1 & A-2 Entrances
+Escalator No 45	Unpaid Concourse To Subway 2	A-3 Entrance
+Escalator No 46	Subway 2 To Unpaid Concourse	A-3 Entrance
+Escalator No 43	Subway 2 To Street	A-3 Entrance
+Escalator No 44	Street To Subway 2	A-3 Entrance
+Escalator No 35	Subway 2 To Street	Central Bus Stop
+Escalator No 47	Street To Subway 2	Central Bus Stop
+Escalator No 6	Street To Subway 3	Towards Central
+Escalator No 7	Subway 3 To Street	Towards Central
+Escalator No 40	Subway 3 To Street	Towards GH
+Escalator No 29	Paid Concourse To Platform 1 & 2	EFO 01
+Escalator No 48	Platform 1 & 2 To Paid Concourse	EFO 01
+Escalator No 30	Platform 1 & 2 To Platform 5 & 6	EFO 01
+Escalator No 49	Platform 5 & 6 To Platform 1 & 2	EFO 01
+Escalator No 21	Paid Concourse To Platform 1 & 2	EFO 02
+Escalator No 22	Platform 1 & 2 To Paid Concourse	EFO 02
+Escalator No 25	Platform 1 & 2 To Platform 5 & 6	EFO 02
+Escalator No 26	Platform 5 & 6 To Platform 1 & 2	EFO 02
+Lift No 1	Concourse To Street	B-2 Entrance
+Lift No 2	Concourse To Street	A-1 & A-2 Entrances
+Lift No 15	Concourse To Subway 2	A-1 & A-2 Entrances
+Lift No 16	Subway 2 To Street	A-1 & A-2 Entrances
+Lift No 3	Concourse To Subway 2	A-3 Entrance
+Lift No 17	Subway 2 To Street	A-3 Entrance
+Lift No 5	Concourse To Subway 1	B-3 & B-4 Entrances
+Lift No 13	Subway 1 To Street	B-3 & B-4 Entrances
+Lift No 8	Concourse To Platform 1 & 2	-
+Lift No 18	Platform 1 & 2 To Platform 5 & 6	-
+Lift No 19	Subway 3 To Street	-
+Lift No 20	Subway 3 To Street	-
+Lift No 14	Subway 1 To Street	-
+Lift No 11	Subway 2 To Street	-
+Lift No 12	Subway 2 To Street	-`, gates: ` A-1,A-2,A-3,B-2,B-3 and B-4 gates has lift`
+        },
+        "High Court ": {
+            id: 103, lat: 13.087369, lng: 80.285021, details: `
+Name	Floor	Location
+Escalator No 1	Street to Unpaid Concourse	B-1 Entrance
+Escalator No 3	Street to Unpaid Concourse	A-1 Entrance
+Escalator No 5	Street to Unpaid Concourse	A-2 Entrance
+Escalator No 6	Concourse to Platform	-
+Escalator No 9	Concourse to Platform	-
+Lift No 1	Concourse to Street	A-1 Entrance
+Lift No 2	Concourse to Street	A-4 Entrance
+Lift No 3	Concourse to Street	A-2 Entrance
+Lift No 4	Concourse to Street	B-2 Entrance
+Lift No 5	Concourse to Platform	-`, gates: ` A-1, A-2, A-4 and B-2 gates has lift`
+        },
+        "Mannadi ": {
+            id: 102, lat: 13.095177, lng: 80.286164, details: `
+Name	Floor	Location
+Escalator No 2	Street to Unpaid Concourse	B-1 Entrance
+Escalator No 3	Street to Unpaid Concourse	A-1 Entrance
+Escalator No 4	Concourse To Platform	EFO 02
+Escalator No 7	Concourse To Platform	EFO 01
+Lift No 1	Concourse To Street	B-1 Entrance
+Lift No 2	Street to Unpaid Concourse	A-1 Entrance
+Lift No 3	Concourse To Platform	-
+Lift No 4	Concourse To Platform	-`, gates: `  B-1 gate for lift`
+        },
+        "Washermenpet ": {
+            id: 101, lat: 13.107064, lng: 80.280528, details: `
+Name	Floor	Location
+Escalator No 3	Concourse To Street	A-1 Entrance
+Escalator No 1	Concourse To Street	B-2 Entrance
+Escalator No 12	Concourse To Street	B-3 Entrance
+Escalator No 05	Concourse To Platform	-
+Escalator No 08	Concourse To Platform	-
+Lift No 1	Concourse To Street	A-2 Entrance
+Lift No 2	Concourse To Street	B-1 Entrance
+Lift No 3	Concourse To Platform	-`, gates: ` A-2 and B-1 gates have lift`
+        },
+        "Theagaraya College ": {
+            id: 149, lat: 13.116, lng: 80.284, details: `
+Name	Floor	Location
+Escalator No 3	Platform To Concourse	-
+Escalator No 4	Concourse To Platform	-
+Escalator No 7	Unpaid Concourse To Street	E-2 Entrance
+Escalator No 9	Unpaid Concourse to Street	E-2 Entrance
+Lift No 1	Concourse to street	E-4 Entrance
+Lift No 2	Street to Unpaid Concourse	E-3 Entrance
+Lift No 3	Concourse to Platform	-`, gates: ` E-3 and E-4 gates have lift`
+        },
+        "Tondiarpet ": {
+            id: 148, lat: 13.124, lng: 80.289, details: `
+Name	Floor	Location
+Lift No 1	Street level to concourse	E-4 Entrance
+Lift No 2	Street level to concourse	E-3 Entrance
+Lift No 3	Platform to Concourse	Concourse Middle
+Escalator No 3	Platform to Concourse	Near EFO-02
+Escalator No 4	Concourse to Platform	Near EFO-02
+Escalator No 8	Concourse to Street	E-1 Entrance
+Escalator No 10	Concourse to Street	E-2 Entrance
+Escalator No 11	Concourse to Street	E-3 Entrance
+Escalator No 12	Street level to concourse	E-3 Entrance`, gates: ` E-3 and E-4 gates have lift`
+        },
+        "New Washermenpet ": {
+            id: 147, lat: 13.107064, lng: 80.280528, details: `
+Name	Floor	Location
+Escalator No 5	Street To Unpaid Concourse	E-3 Entrance
+Escalator No 2	Paid Concourse To Pl-01	-
+Escalator No 3	Paid Concourse To Pl-02	-
+Lift No 3 & 4	Street To Unpaid Concourse	E-1 Entrance
+Lift No 5	Street To Unpaid Concourse	E-2 Entrance
+Lift No 7	Street To Unpaid Concourse	E-4 Entrance
+Lift No 2	Paid Concourse To Pl-01	-
+Lift No 1	Paid Concourse To Pl-02	-
+Lift No 6	Pd Area	-`, gates: ` E-1,E-2 and E-4 gates have lift`
+        },
+        "Tollgate ": {
+            id: 146, lat: 13.143, lng: 80.296, details: `
+Name	Floor	Location
+Escalator No 3	Platform 01 To Concourse	-
+Escalator No 4	Platform 02 To concourse	-
+Escalator No 5	Concourse To platform 01	-
+Escalator No 6	Concourse To platform 02	-
+Escalator No 9	Street level To Concourse	-
+Lift No 1	Concourse To Platform 02	-
+Lift No 2	Concourse To Platform 01	-
+Lift No 3	Street level To Concourse	E-1 Entrance
+Lift No 4	Street level To Concourse	-`, gates: ` E-1 gate for lift`
+        },
+        "Kaladipet ": {
+            id: 145, lat: 13.151, lng: 80.299, details: `
+Name	Floor	Location
+Escalator No 10	Street To Concourse	E-1 Entrance
+Escalator No 9	Street To Concourse	E-2 Entrance
+Escalator No 3	Concourse To Platform 2	-
+Escalator No 4	Concourse To Platform 2	-
+Escalator No 5	Concourse To Platform 1	-
+Escalator No 6	Concourse To Platform 1	-
+Lift No 1	Concourse To Platform 1	-
+Lift No 2	Concourse To Platform 2	-
+Lift No 3	Concourse To Street	E-1 Entrance
+Lift No 4	Concourse To Street	E-3 Entrance
+Lift No 5	Concourse To Street	E-3 Entrance`, gates: ` E-1,E-2 and E-3 gates have lift`
+        },
+        "Tiruvottiyur Theradi ": {
+            id: 144, lat: 13.15977258, lng: 80.30244886, details: `
+Name	Floor	Location
+Lift No 1	Street to Platform Unpaid Area	E-1 Entrance
+Lift No 2	Street to Platform Unpaid Area	E-1 Entrance
+Lift No 3	Street to Platform Unpaid Area	E-2 Entrance
+Lift No 4	Street to Platform Unpaid Area	E-2 Entrance
+Lift No 5	Street to Platform Unpaid Area	E-1 Entrance
+Lift No 7	Street to Platform Unpaid Area	E-2 Entrance`, gates: ` E-1 and E-2 gates have lift`
+        },
+        "Tiruvottiyur ": {
+            id: 143, lat: 13.172, lng: 80.305, details: `
+Name	Floor	Location
+Escalator No 3	Paid Concourse To Platform-02	-
+Escalator No 4	Platform-02 To Paid Concourse	-
+Escalator No 5	Paid Concourse To Platform-01	-
+Escalator No 6	Platform-01 To Paid Concourse	-
+Escalator No 9	Street To Concourse	E-2 Entrance
+Lift No 1	Concourse To Platform 02	-
+Lift No 2	Concourse To Platform 01	-
+Lift No 3	Concourse to Street	E-2 Entrance
+Lift No 4	Concourse to Street	E-3 Entrance`, gates: ` E-2 and E-3 gates have lift`
+        },
+        "Wimco Nagar ": {
+            id: 142, lat: 13.18304032, lng: 80.30903569, details: `
+Name	Floor	Location
+Escalator No 1	Concourse To Platform 2	Upstairs
+Escalator No 2	Concourse To Platform 2	Downstairs
+Escalator No 7	Concourse To Platform 1	Downstairs
+Escalator No 8	Concourse To Platform 1	Upstairs
+Escalator No 9	Street To Concourse	E-1 Entrance
+Lift No 1	Concourse To Platform 2	-
+Lift No 2	Concourse To Platform 1	-
+Lift No 3	Street To Concourse	E-1 Entrance
+Lift No 4	Street To Concourse	E-3 Entrance`, gates: ` E-1 and E-3 gates have lift`
+        },
+        "Wimco Nagar Depot ": {
+            id: 141, lat: 13.1842985, lng: 80.30909273, details: `
+Escalator No 01	-	-
+Lift No 01	Concourse To Street	Main Entrance
+Lift No 01	Platform To Street	Main Entrance
+Lift No 02	Concourse To Street	Main Entrance
+Lift No 02	Platform To Street	Main Entrance`, gates: ` A-1 gate has lift`
+        },
+        "Egmore ": {
+            id: 202, lat: 13.079059, lng: 80.261098, details: `
+            Name	Floor	Location
+            Escalator No 1	Street To Unpaid Concourse	A-3 Entrance
+            Escalator No 3	Street To Unpaid Concourse	A-1 Entrance
+            Escalator No 4	Street To Unpaid Concourse	B-2 Entrance
+            Escalator No 5	Street To Unpaid Concourse	B-2 Entrance
+            Escalator No 8	Concourse To Platform	EFO 01
+            Escalator No 9	Concourse To Platform	EFO 02
+            Escalator No 10	Street To Unpaid Concourse	A-1 Entrance
+            Lift No 01	Concourse To Street	A-2 Entrance
+            Lift No 03	Concourse To Street	B-1 Entrance
+            Lift No 05	Concourse To Platform	-
+            Lift No 06	Concourse To Platform	-
+            Lift No 08	Street To FOB	A-3 Entrance
+            Lift No 09	Street To FOB	A-3 Entrance`, gates: ` A-3 and B-1 gates have lift`
+        },
+        "Nehru Park ": {
+            id: 203, lat: 13.078625, lng: 80.250855, details: `
+            Name	Floor	Location
+            Escalator No 1	Street To Concourse Unpaid Area	A-3 Entrance
+            Escalator No 3	Street To Concourse Unpaid Area	B-2 Entrance
+            Escalator No 5	Street To Concourse Unpaid Area	A-2 Entrance
+            Escalator No 11	Concourse To Platform Paid Area	Towards Chennai Central
+            Escalator No 14	Concourse To Platform Paid Area	Towards St.Thomas Mount
+            Lift No 1	Street To Concourse Unpaid Area	A-1 Entrance
+            Lift No 2	Street To Concourse Unpaid Area	B-1 Entrance
+            Lift No 3	Platform To Concourse Paid Area	-`, gates: ` A-1 and B-1 gates have lift`
+        },
+        "Kilpauk ": {
+            id: 204, lat: 13.077508, lng: 80.242867, details: `
+            Name	Floor	Location
+            Escalator No 1	Unpaid Concourse To Street	A-2 Entrance
+            Escalator No 2	Street To Unpaid Concourse	A-2 Entrance
+            Escalator No 5	Unpaid Concourse To Street	B-3 Entrance
+            Escalator No 7	Platform To Concourse	EFO 02
+            Escalator No 10	Platform To Concourse	EFO 01
+            Lift No 1	Street To Concourse	A-2 Entrance
+            Lift No 2	Street To Concourse	B-2 Entrance
+            Lift No 3	Platform To Concourse	-`, gates: ` A-2 and B-2 gates have lift`
+        },
+        "Pachaiyappa's College ": {
+            id: 205, lat: 13.07557, lng: 80.232347, details: `
+            Name	Floor	Location
+            Escalator No 3	Street To Unpaid Concourse	B-3 Entrance
+            Escalator No 5	Street To Unpaid Concourse	B-1 Entrance
+            Escalator No 7	Street To Unpaid Concourse	B-2 Entrance
+            Escalator No 10	Platform To Concourse	EFO 01
+            Escalator No 12	Platform To Concourse	EFO 02
+            Lift No 1	Street To Concourse	B-3 Entrance
+            Lift No 3	Street To Concourse	B-2 Entrance
+            Lift No 4	Platform To Concourse	-`, gates: ` A-1 and B-1 gates have lift`
+        },
+        "Shenoy Nagar ": {
+            id: 206, lat: 13.078697, lng: 80.225133, details: `
+            Name	Floor	Location
+            Escalator No 2	Street To Unpaid Concourse	A-1 Entrance
+            Escalator No 6	Street To Unpaid Concourse	B-1 Entrance
+            Escalator No 7	Street To Unpaid Concourse	B-2 Entrance
+            Escalator No 10	Platform To Concourse	EFO 01
+            Escalator No 11	Platform To Concourse	EFO 02
+            Lift No 1	Street To Concourse	A-2 Entrance
+            Lift No 2	Street To Concourse	B-1 Entrance
+            Lift No 3	Platform To Concourse	-`, gates: ` A-1 and B-1 gates have lift`
+        },
+        "Anna Nagar East": {
+            id: 207, lat: 13.084794, lng: 80.21866, details: `
+            Name	Floor	Location
+            Escalator No 1	Street To Unpaid Concourse	A-2 Entrance
+            Escalator No 4	Street To Unpaid Concourse	B-1 Entrance
+            Escalator No 8	Platform To Concourse	EFO 01
+            Escalator No 12	Platform To Concourse	EFO 02
+            Lift No 1	Street To Concourse	A-2 Entrance
+            Lift No 2	Street To Concourse	B-1 Entrance
+            Lift No 3	Platform To Concourse	-`, gates: ` A-1 and B-1 gates have lift`
+        },
+        "Anna Nagar Tower ": {
+            id: 208, lat: 13.084975, lng: 80.208727, details: `
+            Name	Floor	Location
+            Escalator No 1	Street To Unpaid Concourse	A-2 Entrance
+            Escalator No 5	Street To Unpaid Concourse	B-1 Entrance
+            Escalator No 8	Platform To Concourse	EFO 01
+            Escalator No 11	Platform To Concourse	EFO 02
+            Lift No 1	Street To Concourse	A-2 Entrance
+            Lift No 2	Street To Concourse	B-1 Entrance
+            Lift No 3	Platform To Concourse	-`, gates: ` A-1 and B-1 gates have lift`
+        },
+        "Thirumangalam ": {
+            id: 209, lat: 13.085259, lng: 80.201575, details: `
+            Name	Floor	Location
+            Escalator No 2	Street To Unpaid Concourse	A-1 Entrance
+            Escalator No 6	Street To Unpaid Concourse	B-1 Entrance
+            Escalator No 7	Street To Unpaid Concourse	B-2 Entrance
+            Escalator No 11	Platform To Concourse	EFO 01
+            Escalator No 14	Platform To Concourse	EFO 02
+            Lift No 1	Street To Concourse	A-1 Entrance
+            Lift No 3	Street To Concourse	B-2 Entrance
+            Lift No 4	Platform To Concourse	-`, gates: ` A-1 and A-4 gates have lift`
+        },
+        "Koyambedu ": {
+            id: 210, lat: 13.073708, lng: 80.194869, details: `
+            Name	Floor	Location
+            Escalator No 2	Street To Unpaid Concourse	A-1 Entrance
+            Escalator No 6	Street To Unpaid Concourse	B-2 Entrance
+            Escalator No 10	Platform To Concourse	EFO 01
+            Escalator No 14	Platform To Concourse	EFO 02
+            Lift No 1	Street To Concourse	A-1 Entrance
+            Lift No 3	Street To Concourse	B-1 Entrance
+            Lift No 4	Platform To Concourse	-`, gates: ` b and d gate have lift`
+        },
+        "CMBT ": {
+            id: 211, lat: 13.068568, lng: 80.203882, details: `
+            Name	Floor	Location
+            Escalator No 2	Street To Unpaid Concourse	A-1 Entrance
+            Escalator No 5	Street To Unpaid Concourse	B-2 Entrance
+            Escalator No 8	Platform To Concourse	EFO 01
+            Escalator No 11	Platform To Concourse	EFO 02
+            Lift No 1	Street To Concourse	A-1 Entrance
+            Lift No 2	Street To Concourse	B-1 Entrance
+            Lift No 3	Platform To Concourse	-`, gates: ` c gate has lift`
+        },
+        "Arumbakkam ": {
+            id: 212, lat: 13.062058, lng: 80.211581, details: `
+            Name	Floor	Location
+            Escalator No 2	Street To Unpaid Concourse	A-2 Entrance
+            Escalator No 6	Street To Unpaid Concourse	B-1 Entrance
+            Escalator No 10	Platform To Concourse	EFO 01
+            Escalator No 14	Platform To Concourse	EFO 02
+            Lift No 1	Street To Concourse	A-1 Entrance
+            Lift No 3	Street To Concourse	B-2 Entrance
+            Lift No 4	Platform To Concourse	-`, gates: ` any gate for lift`
+        },
+        "Vadapalani ": {
+            id: 213, lat: 13.0504,
+            lng: 80.2128, details: `
+            Name	Floor	Location
+            Escalator No 2	Street To Unpaid Concourse	A-1 Entrance
+            Escalator No 6	Street To Unpaid Concourse	B-1 Entrance
+            Escalator No 10	Platform To Concourse	EFO 01
+            Escalator No 14	Platform To Concourse	EFO 02
+            Lift No 1	Street To Concourse	A-1 Entrance
+            Lift No 3	Street To Concourse	B-2 Entrance
+            Lift No 4	Platform To Concourse	-`, gates: ` any gate to get lift`
+        },
+        "Ashok Nagar ": {
+            id: 214, lat: 13.035534, lng: 80.21114, details: `
+            Name	Floor	Location
+            Escalator No 2	Street To Unpaid Concourse	A-1 Entrance
+            Escalator No 6	Street To Unpaid Concourse	B-1 Entrance
+            Escalator No 10	Platform To Concourse	EFO 01
+            Escalator No 14	Platform To Concourse	EFO 02
+            Lift No 1	Street To Concourse	A-1 Entrance
+            Lift No 3	Street To Concourse	B-2 Entrance
+            Lift No 4	Platform To Concourse	-`, gates: ` d and e gate has lift`
+        },
+        "Ekkattuthangal ": {
+            id: 215, lat: 13.017044, lng: 80.20594, details: `
+            Name	Floor	Location
+            Escalator No 2	Street To Unpaid Concourse	A-1 Entrance
+            Escalator No 6	Street To Unpaid Concourse	B-1 Entrance
+            Escalator No 10	Platform To Concourse	EFO 01
+            Escalator No 14	Platform To Concourse	EFO 02
+            Lift No 1	Street To Concourse	A-1 Entrance
+            Lift No 3	Street To Concourse	B-2 Entrance
+            Lift No 4	Platform To Concourse	-`, gates: ` A-2 and B-1 gate has lift`
+        },
+        "St. Thomas Mount ": {
+            id: 217, lat: 12.995128, lng: 80.19864, details: `
+            Name	Floor	Location
+            Escalator No 3	Street To Unpaid Concourse	-
+            Escalator No 4	MRTS To Concourse	-
+            Escalator No 13	Platform 1 To MRTS	-
+            Escalator No 9	Concourse To MRTS	-
+            Escalator No 17	MRTS To Platform 1	-
+            Escalator No 6	Concourse To MRTS	-
+            Escalator No 14	MRTS To Platform 2	-
+            Escalator No 10	MRTS To Concourse	-
+            Escalator No 18	Platform 2 To MRTS	-
+            Lift No 01	Street To Concourse	-
+            Lift No 02	Street To Concourse	-
+            Lift No 03	Concourse To Platform 1	-
+            Lift No 04	Concourse To Platform 2	-`, gates: ` a gate has lift`
+        },
+        // Add more stations here...
+    };
+
+    window.onload = function () {
+        const dropdown = document.getElementById("places");
+        for (const place in places) {
+            const option = document.createElement("option");
+            option.value = place;
+            option.text = place;
+            dropdown.add(option);
+        }
+        getUserLocation(); // Fetch user location
+        updateDateTime();
+        welcomeUser();
+    };
+
+    function welcomeUser() {
+        const message = "Welcome to Mithra!";
+        const utterance = new SpeechSynthesisUtterance(message);
+        window.speechSynthesis.speak(utterance);
+    }
+
+    function initializeMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: userLocation,
+            zoom: 12
+        });
+        new google.maps.Marker({
+            position: userLocation,
+            map: map,
+            title: "User Location"
+        });
+    }
+
+    function getUserLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                userLocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                initializeMap();
+                findNearestStation();
+            }, function () {
+                initializeMap(); // Initialize map with default location if user denies geolocation access
+            });
+        } else {
+            initializeMap(); // Initialize map with default location if geolocation is not supported
+        }
+    }
+
+    function findNearestStation() {
+        let minDistance = Number.MAX_VALUE;
+        let nearestStation = null;
+        for (const station in stations) {
+            const stationLocation = new google.maps.LatLng(stations[station].lat, stations[station].lng);
+            const distance = google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(userLocation.lat, userLocation.lng), stationLocation);
+            if (distance < minDistance) {
+                minDistance = distance;
+                nearestStation = station;
             }
         }
 
-        function startVoiceSearch() {
-            if (!window.SpeechRecognition && !window.webkitSpeechRecognition) {
-                alert("Speech recognition is not supported in your browser.");
-                return;
-            }
+        if (nearestStation) {
+            document.getElementById("user-nearest-station").innerHTML = `Your Nearest Station: <span class="glow">${nearestStation}</span>`;
+            displayStationDetails("user-nearest-station-details", stations[nearestStation].details);
+            const selectedPlace = document.getElementById("places").value;
+            if (selectedPlace) {
+                const nearestDestinationStation = findNearestStationToDestination(places[selectedPlace]);
+                document.getElementById("destination-nearest-station").innerHTML = `Destination's Nearest Station: <span class="glow">${nearestDestinationStation}</span>`;
+                displayStationDetails("destination-nearest-station-details", stations[nearestDestinationStation].details);
+                speakStations(nearestStation, nearestDestinationStation, selectedPlace); // Pass selectedPlace to speakStations
 
-            let recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-            recognition.lang = "en-US";
-            recognition.onresult = event => {
-                let voiceInput = event.results[0][0].transcript.toLowerCase();
-                document.getElementById('chatInput').value = voiceInput;
-                document.getElementById('chatOutput').innerHTML += `<p><b>You:</b> ${voiceInput}</p>`;
-                fetchChatbotResponse(voiceInput);
-            };
-            recognition.onerror = () => alert("Voice recognition failed.");
-            recognition.start();
-        }
-
-        async function askChatbot() {
-            let userMessage = document.getElementById('chatInput').value.trim();
-            if (!userMessage) return;
-            document.getElementById('chatOutput').innerHTML += `<p><b>You:</b> ${userMessage}</p>`;
-            document.getElementById('chatInput').value = '';
-            fetchChatbotResponse(userMessage);
-        }
-
-        async function fetchChatbotResponse(message) {
-            let chatOutput = document.getElementById('chatOutput');
-            chatOutput.innerHTML += `<p><i>MediCare is typing...</i></p>`;
-            chatOutput.scrollTop = chatOutput.scrollHeight;
-
-            try {
-                let response = await fetch('/ask', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message })
-                });
-
-                let data = await response.json();
-                chatOutput.innerHTML = chatOutput.innerHTML.replace(`<p><i>MediCare is typing...</i></p>`, "");
-                chatOutput.innerHTML += `<p><b>Bot:</b> ${data.response}</p>`;
-                chatOutput.scrollTop = chatOutput.scrollHeight;
-
-                let speech = new SpeechSynthesisUtterance(data.response);
-                speech.lang = "en-US";
-                window.speechSynthesis.speak(speech);
-            } catch (error) {
-                chatOutput.innerHTML = chatOutput.innerHTML.replace(`<p><i>MediCare is typing...</i></p>`, "");
-                chatOutput.innerHTML += `<p><b>Bot:</b> Sorry, I encountered an error. Please try again.</p>`;
-                chatOutput.scrollTop = chatOutput.scrollHeight;
+                // Get the current date and time in the required format
+                const {formattedDate, formattedTime} = getCurrentDateTime();
+                fetchApiDetails(stations[nearestStation].id, stations[nearestDestinationStation].id, formattedDate, formattedTime); // Pass station IDs, date, and time for API call
             }
         }
+    }
 
-        // Send a welcome message when the page loads
-        window.onload = function() {
-            document.getElementById('chatOutput').innerHTML = `<p><b>Bot:</b> Hello! I'm MediCare, your medical assistant. How can I help you today?</p>`;
+    function findNearestStationToDestination(destination) {
+        let minDistance = Number.MAX_VALUE;
+        let nearestStation = null;
+        for (const station in stations) {
+            const stationLocation = new google.maps.LatLng(stations[station].lat, stations[station].lng);
+            const distance = google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(destination.lat, destination.lng), stationLocation);
+            if (distance < minDistance) {
+                minDistance = distance;
+                nearestStation = station;
+            }
+        }
+        return nearestStation;
+    }
+
+    function startVoiceRecognition() {
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = "en-US";
+        recognition.start();
+
+        recognition.onresult = function (event) {
+            const transcript = event.results[0][0].transcript.toLowerCase();
+            const placesDropdown = document.getElementById("places");
+            for (const option of placesDropdown.options) {
+                if (option.text.toLowerCase() === transcript) {
+                    placesDropdown.value = option.value;
+                    findNearestStation();
+                    break;
+                }
+            }
         };
-    </script>
+    }
+
+    function updateDateTime() {
+        const now = new Date();
+        const options = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        };
+        document.getElementById("current-datetime").textContent = `Date and Time: ${now.toLocaleString('en-US', options)}`;
+    }
+
+    function getCurrentDateTime() {
+        const now = new Date();
+        const formattedDate = now.toLocaleDateString('en-GB').split('/').reverse().join('/');
+        const formattedTime = now.toTimeString().split(' ')[0].substring(0, 5);
+        return {formattedDate, formattedTime};
+    }
+
+    function speakStations(userStation, destinationStation, selectedPlace) {
+        const exits = places[selectedPlace]?.exits || ''; // Get exits from places
+        const userStationDetails = stations[userStation] || {};
+        const destinationStationDetails = stations[destinationStation] || {};
+
+        const gates = userStationDetails.gates || 'the specified gates';
+
+        const message = `Your nearest station is ${userStation}. The nearest station to your destination is ${destinationStation}. ${gates} at ${userStation}. Please take the metro from ${userStation} to ${destinationStation}. Exits at ${destinationStation}: ${exits}.`;
+        const utterance = new SpeechSynthesisUtterance(message);
+        window.speechSynthesis.speak(utterance);
+    }
+
+    function startNavigation() {
+        const userStation = document.getElementById("user-nearest-station").textContent.replace("Your Nearest Station: ", "");
+        const destinationStation = document.getElementById("destination-nearest-station").textContent.replace("Destination's Nearest Station: ", "");
+        const selectedPlace = document.getElementById("places").value;
+        const destination = places[selectedPlace];
+
+        if (!userStation || !destinationStation || !selectedPlace) {
+            alert("Please ensure that you have selected a place and that the nearest stations are available.");
+            return;
+        }
+
+        const userStationDetails = stations[userStation];
+        const destinationStationDetails = stations[destinationStation];
+
+        if (!userStationDetails || !destinationStationDetails) {
+            alert("Unable to find details for the selected stations.");
+            return;
+        }
+
+        const transitUrl = `https://www.google.com/maps/dir/?api=1&origin=${userLocation.lat},${userLocation.lng}&destination=${destination.lat},${destination.lng}&waypoints=${userStationDetails.lat},${userStationDetails.lng}|${destinationStationDetails.lat},${destinationStationDetails.lng}`;
+
+        window.open(transitUrl, "_blank");
+    }
+
+    function displayStationDetails(elementId, details) {
+        const table = document.getElementById(elementId);
+        table.innerHTML = ""; // Clear previous content
+
+        const lines = details.trim().split('\n');
+        if (lines.length > 1) {
+            const headers = lines[0].split(/\t/); // Split by tab to handle the headers
+            const headerRow = table.insertRow();
+
+            headers.forEach(headerText => {
+                const headerCell = document.createElement("th");
+                headerCell.textContent = headerText.trim(); // Trim whitespace
+                headerCell.style.fontWeight = 'bold';
+                headerRow.appendChild(headerCell);
+            });
+
+            for (let i = 1; i < lines.length; i++) {
+                const row = table.insertRow();
+                const columns = lines[i].split(/\t/); // Split by tab to handle columns
+                columns.forEach(columnText => {
+                    const cell = row.insertCell();
+                    cell.textContent = columnText.trim(); // Trim whitespace
+                });
+            }
+        } else {
+            table.textContent = details; // If details do not contain table-like content, display as is
+        }
+    }
+
+    function embedLeafletMap() {
+        // Create an iframe
+        var iframe = document.createElement('iframe');
+        iframe.src = 'metro.html'; // Source URL of the full map
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+        iframe.style.border = 'none';
+
+        // Append the iframe to the embedded-map container
+        document.getElementById('embedded-map').appendChild(iframe);
+    }
+
+    // Call the embedLeafletMap function to embed the map
+    embedLeafletMap();
+
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDzBogouog3En8fqV16t8AAvGd0jHcztc0&libraries=geometry&callback=initializeMap"
+        async defer></script>
 </body>
 </html>
